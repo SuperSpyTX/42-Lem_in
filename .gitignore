@@ -1,0 +1,4 @@
+*.o
+lem-in
+*.dSYM/*
+Session.vim
