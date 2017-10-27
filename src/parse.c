@@ -6,7 +6,7 @@
 /*   By: jkrause <jkrause@student.42.us.org>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/10/25 20:23:41 by jkrause           #+#    #+#             */
-/*   Updated: 2017/10/26 07:12:01 by jkrause          ###   ########.fr       */
+/*   Updated: 2017/10/26 21:14:40 by jkrause          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -31,7 +31,7 @@ t_node						*parse_room(char *line)
 	}
 	node->room_name = ft_strchr(line, ' ');
 	NAWL_GUARD(node->room_name = ft_strsub(line, 0, (node->room_name - line)));
-	if (ft_is_whitespace(*node->room_name))
+	if (!is_valid_room(line))
 	{
 		FREE2_RET(node->room_name, node, 0);
 	}
@@ -126,7 +126,7 @@ t_lem_in					*parse_data(void)
 	char					*first_line;
 
 	ALOKATE(lem_in, t_lem_in);
-	if (!get_next_line(0, &first_line))
+	if (!get_next_line(0, &first_line) || ft_strchr(first_line, '-'))
 	{
 		lem_in->error = 1;
 		return (lem_in);

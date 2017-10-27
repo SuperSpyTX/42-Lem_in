@@ -6,11 +6,42 @@
 /*   By: jkrause <jkrause@student.42.us.org>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/10/25 23:00:13 by jkrause           #+#    #+#             */
-/*   Updated: 2017/10/26 06:26:50 by jkrause          ###   ########.fr       */
+/*   Updated: 2017/10/26 23:44:37 by jkrause          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "lem_in.h"
+
+/*
+** Because the PDF says so :|||||||||||||||||||||||||||||||||||||||||||||||||
+*/
+int						is_valid_room(char *line)
+{
+	int					flag;
+
+	//ft_printf("VRC: %c\n", *line);
+	if (ft_is_whitespace(*line) || *line == 'L')
+		return (0);
+	flag = 0;
+	line = ft_strchr(line, ' ') + 1;
+	while (ft_isdigit(*line))
+	{
+		flag = 1;
+		//ft_printf("VR1: %c\n", *line);
+		line += 1;
+	}
+	line += 1;
+	//ft_printf("NOW: %s\n", line);
+	while (ft_isdigit(*line))
+	{
+		flag = 2;
+		//ft_printf("VR2: %c\n", *line);
+		line += 1;
+	}
+	if (*line != '\0')
+		return (0);
+	return ((flag == 2) ? 1 : 0);
+}
 
 char					**spl_room_names(char *line)
 {
@@ -36,7 +67,7 @@ int						append_link(t_node *parent, t_node *node)
 		return (0);
 	nset = ft_memalloc((parent->links_count + 2) * sizeof(t_node*));
 	ft_memcpy(nset, parent->links, sizeof(t_node*) * parent->links_count);
-	if (parent->links_count != 0)
+ 	if (parent->links_count != 0)
 		free(parent->links);
 	nset[parent->links_count++] = node;
 	nset[parent->links_count] = 0;
@@ -78,8 +109,6 @@ void					free_room(t_node *node)
 		return ;
 	if (node->room_name)
 		free(node->room_name);
-	if (node->room_line)
-		free(node->room_line);
 	if (node->links)
 		free(node->links);
 	free(node);
