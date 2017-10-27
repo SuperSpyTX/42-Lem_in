@@ -6,7 +6,7 @@
 /*   By: jkrause <jkrause@student.42.us.org>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/10/25 15:12:35 by jkrause           #+#    #+#             */
-/*   Updated: 2017/10/26 21:09:38 by jkrause          ###   ########.fr       */
+/*   Updated: 2017/10/27 01:42:48 by jkrause          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -56,18 +56,13 @@ t_lem_in				*parse_data(void);
 int						append_room(t_lem_in *lem_in, t_node *node, int sp);
 void					free_room(t_node *node);
 int						append_link(t_node *parent, t_node *node);
+int						merge_link(t_node *parent, t_node *child);
 char					**spl_room_names(char *line);
-int						create_exclusive_network_event4elitesonly(t_lem_in *lem_in);
+int						create_exclusive_network_event4elite(t_lem_in *lem_in);
 int						move_ant(int ant, t_node *a, t_node *b);
 int						move_lazy_ants(t_lem_in *lem_in);
 int						is_valid_room(char *line);
 int						traverse(t_node *node, int root);
 int						traverse_debug(t_node *node, int root);
-
-
-/*
-** See expand.h for what this is.
-*/
-# define GTL_LEM(A, B, C, D, E) char *g = 0; get_next_line(A, &g);C(D, B(g),E);
 
 #endif

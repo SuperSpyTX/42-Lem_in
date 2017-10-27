@@ -6,7 +6,7 @@
 /*   By: jkrause <jkrause@student.42.us.org>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/10/25 20:23:41 by jkrause           #+#    #+#             */
-/*   Updated: 2017/10/26 21:14:40 by jkrause          ###   ########.fr       */
+/*   Updated: 2017/10/27 01:42:38 by jkrause          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -50,7 +50,7 @@ int							parse_room_link(t_lem_in *lem_in, char *line)
 	nodea = 0;
 	nodeb = 0;
 	spl = spl_room_names(line);
-	if (!spl || !lem_in->arr_start)
+	if (!spl)
 	{
 		FREE_RET(line, 0);
 	}
@@ -66,7 +66,7 @@ int							parse_room_link(t_lem_in *lem_in, char *line)
 		trav = trav->next;
 	}
 	ft_printf("%s\n", line);
-	FREE3_RET(spl[0], spl, line, append_link(nodea, nodeb));
+	FREE3_RET(spl[0], spl, line, merge_link(nodea, nodeb));
 }
 
 int							process_special_command(char *line)
@@ -97,19 +97,17 @@ int							iterate_rooms(t_lem_in *lem_in)
 
 	LINE_BY_LINE(0);
 	sp = process_special_command(line);
-	if (sp == 3)
-		continue;
-	if (ft_strchr(line, '-') && sp == 0)
+	CONTINUE_IF(sp == 3);
+	if (ft_strchr(line, '-') && sp == 0 && lem_in->arr_start)
 	{
-		if (parse_room_link(lem_in, line))
-			continue;
+		CONTINUE_IF(parse_room_link(lem_in, line));
 		return (0);
 	}
 	if (sp == 0)
 		node = parse_room(line);
 	else
 	{
-		GIT_LINE_FREE(0, parse_room, node);
+		GL_FREE(0, parse_room, node);
 	}
 	if (!append_room(lem_in, node, sp))
 	{
@@ -126,22 +124,21 @@ t_lem_in					*parse_data(void)
 	char					*first_line;
 
 	ALOKATE(lem_in, t_lem_in);
-	if (!get_next_line(0, &first_line) || ft_strchr(first_line, '-'))
-	{
-		lem_in->error = 1;
+	lem_in->error = 1;
+	if (!get_next_line(0, &first_line))
 		return (lem_in);
+	else if (ft_strchr(first_line, '-'))
+	{
+		FREE_RET(first_line, lem_in);
 	}
-	lem_in->num_of_ants = ft_atoi(first_line);
-	free(first_line);
+	USE_VAR_FUNC(first_line, ft_atoi, lem_in->num_of_ants);
 	if (lem_in->num_of_ants < 1)
 	{
 		lem_in->error = 1;
 		return (lem_in);
 	}
 	ft_printf("%d\n", lem_in->num_of_ants);
-	if (!iterate_rooms(lem_in))
-		lem_in->error = 1;
-	else
+	if (iterate_rooms(lem_in))
 		lem_in->error = 0;
 	if (!lem_in->start || !lem_in->end || lem_in->start->links_count < 1)
 		lem_in->error = 1;

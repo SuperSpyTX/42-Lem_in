@@ -6,7 +6,7 @@
 /*   By: jkrause <jkrause@student.42.us.org>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/10/25 23:00:13 by jkrause           #+#    #+#             */
-/*   Updated: 2017/10/26 23:44:37 by jkrause          ###   ########.fr       */
+/*   Updated: 2017/10/27 00:14:46 by jkrause          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,11 +15,11 @@
 /*
 ** Because the PDF says so :|||||||||||||||||||||||||||||||||||||||||||||||||
 */
+
 int						is_valid_room(char *line)
 {
 	int					flag;
 
-	//ft_printf("VRC: %c\n", *line);
 	if (ft_is_whitespace(*line) || *line == 'L')
 		return (0);
 	flag = 0;
@@ -27,15 +27,12 @@ int						is_valid_room(char *line)
 	while (ft_isdigit(*line))
 	{
 		flag = 1;
-		//ft_printf("VR1: %c\n", *line);
 		line += 1;
 	}
 	line += 1;
-	//ft_printf("NOW: %s\n", line);
 	while (ft_isdigit(*line))
 	{
 		flag = 2;
-		//ft_printf("VR2: %c\n", *line);
 		line += 1;
 	}
 	if (*line != '\0')
@@ -56,25 +53,7 @@ char					**spl_room_names(char *line)
 	NAWL_GUARD(spl = (char**)ft_memalloc(sizeof(char*) * 2));
 	spl[0] = room1;
 	spl[1] = room2;
-	return spl;
-}
-
-int						append_link(t_node *parent, t_node *node)
-{
-	t_node				**nset;
-
-	if (!parent || !node)
-		return (0);
-	nset = ft_memalloc((parent->links_count + 2) * sizeof(t_node*));
-	ft_memcpy(nset, parent->links, sizeof(t_node*) * parent->links_count);
- 	if (parent->links_count != 0)
-		free(parent->links);
-	nset[parent->links_count++] = node;
-	nset[parent->links_count] = 0;
-	if (node->special_room == 2)
-		parent->has_end_room = 1;
-	parent->links = nset;
-	return (1);
+	return (spl);
 }
 
 int						append_room(t_lem_in *lem_in, t_node *node, int sp)

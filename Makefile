@@ -20,7 +20,6 @@ src/algorithm.c \
 src/lem_in.c \
 src/rooms.c \
 src/links.c \
-src/traverse.c \
 src/ants.c \
 libft/expand_functions/expand_write.c \
 libft/expand_functions/expand_pad.c \
