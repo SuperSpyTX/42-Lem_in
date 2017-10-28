@@ -6,27 +6,26 @@
 /*   By: jkrause <jkrause@student.42.us.org>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/10/26 14:29:29 by jkrause           #+#    #+#             */
-/*   Updated: 2017/10/27 02:57:24 by jkrause          ###   ########.fr       */
+/*   Updated: 2017/10/27 20:51:23 by jkrause          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "lem_in.h"
 
-int					check_room(t_node *room)
+int					check_room(t_node *room, t_node *from)
 {
 	if (!room)
 		return (0);
-	if (room->special_room == 1)
-		return (0);
-	else if (room->ant_number != 0)
-		return (0);
-	else if (room->special_room == 0 &&
-			(room->traversal_number == 0 || room->links_count == 0))
-		return (0);
-	else if (room->has_end_room || room->special_room == 2)
+	if (room->special_room == 2 && from->special_room == 0)
 		return (1);
 	else if (!room->has_been_traversed && room->special_room == 0)
 		return (0);
+	else if (room->ant_number != 0)
+		return (0);
+	else if (room->traversal_number == 0 || room->links_count == 0)
+		return (0);
+	else if (room->has_end_room || room->special_room == 2)
+		return (1);
 	return (1);
 }
 
@@ -36,6 +35,7 @@ t_node				*check_links(t_node *room)
 	t_node			*select;
 	t_node			*curr;
 	int				priority;
+	int				result;
 
 	g = -1;
 	priority = INT_MAX;
@@ -43,7 +43,10 @@ t_node				*check_links(t_node *room)
 	while (++g < room->links_count)
 	{
 		curr = room->links[g];
-		if (check_room(curr) && curr->traversal_number < priority)
+		result = check_room(curr, room);
+		if (result && curr->special_room == 2)
+			return (curr);
+		else if (result && curr->traversal_number < priority)
 		{
 			priority = curr->traversal_number;
 			select = curr;
@@ -79,32 +82,4 @@ int					move_lazy_ants(t_lem_in *lem_in)
 	if (c == lem_in->num_of_ants || i == 0)
 		return (0);
 	return (1);
-}
-
-int					traverse(t_node *node, int root)
-{
-	int				g;
-	int				res;
-
-	if (node->links_count < 1)
-		return (0);
-	else if (node->has_end_room)
-		return (1);
-	else if (node->has_been_traversed)
-		return (0);
-	else if (node->special_room == 1 && root > 0)
-		return (0);
-	node->has_been_traversed = 1;
-	g = -1;
-	res = 0;
-	while (++g < node->links_count)
-	{
-		res += traverse(node->links[g], root + 1);
-		if (res)
-		{
-			node->links[g]->traversal_number = res;
-			return (res + 1);
-		}
-	}
-	return ((res > 0) ? res + 1 : 0);
 }

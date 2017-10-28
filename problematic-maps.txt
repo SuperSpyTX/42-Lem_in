@@ -1,3 +1,0 @@
-(UNFIX) Maps/10_lots_of_comments.map - Has a comment at the top, I rely on the first line having # of ants
-(UNFIX) tester/maps/underflow - Has a negative number, which includes a dash.  False positive :|
-

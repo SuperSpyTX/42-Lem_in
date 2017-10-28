@@ -12,7 +12,7 @@
 # ----------------- Version 1.5 --------------------- #
 
 # ------------- Automated Configuration ------------- #
-CFLAGS = -g  -Wall -Werror -Wextra
+CFLAGS =   -Wall -Werror -Wextra
 LEM_IN_NAME = lem-in
 CFLAGS += -I includes
 LEM_IN_SRC = src/parse.c \
@@ -20,6 +20,7 @@ src/algorithm.c \
 src/lem_in.c \
 src/rooms.c \
 src/links.c \
+src/traverse.c \
 src/ants.c \
 libft/expand_functions/expand_write.c \
 libft/expand_functions/expand_pad.c \

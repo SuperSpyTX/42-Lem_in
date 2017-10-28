@@ -6,7 +6,7 @@
 /*   By: jkrause <jkrause@student.42.us.org>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/10/26 14:29:34 by jkrause           #+#    #+#             */
-/*   Updated: 2017/10/27 01:53:30 by jkrause          ###   ########.fr       */
+/*   Updated: 2017/10/27 17:13:43 by jkrause          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,7 +17,7 @@ int						move_ant(int ant, t_node *a, t_node *b)
 	if (!a || !b)
 		return (0);
 	b->ant_number = ant + 1;
-	if (a->special_room != 1)
+	if (a->special_room == 0)
 		a->ant_number = 0;
 	ft_printf("L%d-%s ", ant + 1, b->room_name);
 	return (1);

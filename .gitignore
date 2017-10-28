@@ -2,3 +2,4 @@
 lem-in
 *.dSYM/*
 Session.vim
+.undodir

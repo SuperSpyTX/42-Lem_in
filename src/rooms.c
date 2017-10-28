@@ -6,7 +6,7 @@
 /*   By: jkrause <jkrause@student.42.us.org>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/10/25 23:00:13 by jkrause           #+#    #+#             */
-/*   Updated: 2017/10/27 00:14:46 by jkrause          ###   ########.fr       */
+/*   Updated: 2017/10/27 16:47:17 by jkrause          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -24,13 +24,13 @@ int						is_valid_room(char *line)
 		return (0);
 	flag = 0;
 	line = ft_strchr(line, ' ') + 1;
-	while (ft_isdigit(*line))
+	while (ft_isdigit(*line) || (!flag && *line == '-'))
 	{
 		flag = 1;
 		line += 1;
 	}
 	line += 1;
-	while (ft_isdigit(*line))
+	while (ft_isdigit(*line) || (flag != 2 && *line == '-'))
 	{
 		flag = 2;
 		line += 1;
@@ -73,6 +73,8 @@ int						append_room(t_lem_in *lem_in, t_node *node, int sp)
 		lem_in->arr_end->next = node;
 		lem_in->arr_end = node;
 	}
+	if (lem_in->arr_end != node)
+		node->room_id = lem_in->arr_end->room_id + 1;
 	if (sp > 0)
 		node->special_room = sp;
 	if (sp == 2)

@@ -6,7 +6,7 @@
 /*   By: jkrause <jkrause@student.42.us.org>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/10/25 15:12:35 by jkrause           #+#    #+#             */
-/*   Updated: 2017/10/27 01:42:48 by jkrause          ###   ########.fr       */
+/*   Updated: 2017/10/27 16:21:09 by jkrause          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -24,6 +24,7 @@ typedef struct			s_node
 {
 	int					traversal_number;
 	int					ant_number;
+	int					room_id;
 	char				*room_name;
 	int					special_room;
 	int					has_end_room;

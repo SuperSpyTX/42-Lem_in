@@ -6,7 +6,7 @@
 /*   By: jkrause <jkrause@student.42.us.org>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/10/25 20:23:41 by jkrause           #+#    #+#             */
-/*   Updated: 2017/10/27 01:42:38 by jkrause          ###   ########.fr       */
+/*   Updated: 2017/10/27 20:41:11 by jkrause          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -24,8 +24,7 @@ t_node						*parse_room(char *line)
 	t_node					*node;
 
 	ALOKATE(node, t_node);
-	if (*line == '#' || (ft_strchr(line, '-')
-			|| !(ft_strchr(line, ' '))))
+	if (*line == '#' || !ft_strchr(line, ' '))
 	{
 		FREE_RET(node, 0);
 	}
@@ -36,6 +35,7 @@ t_node						*parse_room(char *line)
 		FREE2_RET(node->room_name, node, 0);
 	}
 	node->links_count = 0;
+	node->room_id = 0;
 	ft_printf("%s\n", line);
 	return (node);
 }
@@ -98,7 +98,8 @@ int							iterate_rooms(t_lem_in *lem_in)
 	LINE_BY_LINE(0);
 	sp = process_special_command(line);
 	CONTINUE_IF(sp == 3);
-	if (ft_strchr(line, '-') && sp == 0 && lem_in->arr_start)
+	if (ft_strchr(line, '-') && !ft_strchr(line, ' ')
+			&& sp == 0 && lem_in->arr_start)
 	{
 		CONTINUE_IF(parse_room_link(lem_in, line));
 		return (0);
